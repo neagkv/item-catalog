@@ -10,6 +10,9 @@ Base = declarative_base()
 class Category(Base):
   __tablename__ = "Category"
 
+  name =Column(String(80), nullable = False)
+  id = Column(Integer, primary_key = True)
+
 
 
 class Item(Base):
