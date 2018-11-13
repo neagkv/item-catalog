@@ -1,32 +1,29 @@
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from flask import Flask
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database_setup import Base, Category, Item
+
+app = Flask(__name__)
+
+engine = create_engine('sqlite:///items.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 
-class WebServerHandler(BaseHTTPRequestHandler):
-
-    def do_GET(self):
-        if self.path.endswith("/hello"):
-            self.send_response(200)
-            self.send_header('Content-type', 'text/html')
-            self.end_headers()
-            message = ""
-            message += "<html><body>Hello!</body></html>"
-            self.wfile.write(message)
-            print message
-            return
-        else:
-            self.send_error(404, 'File Not Found: %s' % self.path)
-
-
-def main():
-    try:
-        port = 8080
-        server = HTTPServer(('', port), WebServerHandler)
-        print "Web Server running on port %s" % port
-        server.serve_forever()
-    except KeyboardInterrupt:
-        print " ^C entered, stopping web server...."
-        server.socket.close()
+@app.route('/')
+@app.route('/hello')
+def HelloWorld():
+    category = session.query(Category).first()
+    items = session.query(Category).filter_by(category_id=id)
+    output = ''
+    for i in items:
+        output += i.name
+    return output
 
 if __name__ == '__main__':
-    main()
+    app.debug = True
+    app.run(host='0.0.0.0', port=5000)
+
 
