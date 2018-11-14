@@ -1,5 +1,4 @@
-import os
-import sys
+
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -41,6 +40,7 @@ class Item(Base):
             'description': self.description,
             'id': self.id,
             'price': self.price,
+            'category': self.category.name
         }
 
 
