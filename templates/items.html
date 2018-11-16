@@ -1,0 +1,30 @@
+<html>
+
+<head>
+	</head>
+	<body>
+		<div class = 'pane'>
+		<h1>{{ restaurant.name }}</h1>
+
+	<h2>Items</h2>
+
+		{% for i in items %}
+		{% if i.course == 'Items' %}
+
+		<p>{{i.name}}</p>
+
+
+		<p>{{i.description}}</p>
+
+
+		<p>{{i.price}}</p>
+</br>
+</br>
+		{% endif %}
+
+		{% endfor %}
+
+</div>
+	</body>
+
+</html>

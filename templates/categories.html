@@ -1,10 +1,16 @@
 <html>
 
+<head>
+	</head>
+
 <body>
 <div class = 'pane'>
 <h1>Categories</h1>
 
-{% for categroy in categories %}
+{% for category in categories %}
+
+<a href = "{{url_for('showItems', category_id = category.id)}}"><p>{{category.name}}</p></a>
+
 
 {% endfor %}
 
