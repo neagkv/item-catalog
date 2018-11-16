@@ -20,16 +20,60 @@ def showCategories():
     # return "This page will show all categories"
     return render_template('categories.html', categories=categories)
 
+# Create a new category
+@app.route('/category/new/', methods=['GET', 'POST'])
+def newCategory():
+    if request.method == 'POST':
+        newCategory = Category(name=request.form['name'])
+        session.add(newCategory)
+        session.commit()
+        return redirect(url_for('showCategories'))
+    else:
+        return render_template('newCategory.html')
+    # return "This page will be for making a new restaurant"
 
-    # Show a restaurant menu
+
+# Edit a category
+@app.route('/category/<int:category_id>/edit/', methods=['GET', 'POST'])
+def editCategory(category_id):
+    editedCategory = session.query(
+        Category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedCategory.name = request.form['name']
+            return redirect(url_for('showCategories'))
+    else:
+        return render_template(
+            'editCategory.html', restaurant=editedCategory)
+	# return 'This page will be for editing categories %s' % category_id
+
+
+# Delete a category
+@app.route('/category/<int:category_id>/delete/', methods=['GET', 'POST'])
+def deleteCategory(category_id):
+    categoryToDelete = session.query(
+        category).filter_by(id=category_id).one()
+    if request.method == 'POST':
+        session.delete(categoryToDelete)
+        session.commit()
+        return redirect(
+            url_for('showCategories', category_id=category_id))
+    else:
+        return render_template(
+            'deleteCategory.html', category=categoryToDelete)
+    # return 'This page will be for deleting category %s' % category_id
+
+# Show a item
 @app.route('/category/<int:category_id>/')
-@app.route('/restaurant/<int:category_id>/item/')
+@app.route('/category/<int:category_id>/item/')
 def showItems(category_id):
     category = session.query(Category).filter_by(id=category_id).one()
-    items = session.query(Item).filter_by(
+    items = session.query(Items).filter_by(
         category_id=category_id).all()
     return render_template('items.html', items=items, category=category)
-    # return 'This page is the items for categories %s' % category_id
+    # return 'This page is the items list for category %s' % category_id
+
+
 
 
 
