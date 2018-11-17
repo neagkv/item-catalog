@@ -1,0 +1,29 @@
+<html>
+
+<head>
+
+	</head>
+	<body>
+		<div class = 'pane'>
+		<h1>{{ category.name }}</h1>
+
+	<h2>Items</h2>
+
+		{% for i in items %}
+
+		<p>{{i.name}}</p>
+
+
+		<p>{{i.description}}</p>
+
+
+		<p>{{i.price}}</p>
+
+
+		{% endfor %}
+
+
+
+		</br></br>
+
+</div>
